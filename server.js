@@ -126,7 +126,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: 'mongodb+srv://sakthi333single_db_user:0FqcOzTW8ZVCyl3V@cluster0.cze2qk2.mongodb.net/?appName=Cluster0',
+    mongoUrl: process.env.MONGO_URI
     collectionName: 'sessions',
     ttl: 7 * 24 * 60 * 60 // 7 days
   }),
