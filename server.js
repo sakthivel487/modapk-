@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const Mongostore = require('connect-mongo');
-const MongoStore = require('connect-mongo');
 const admin = require('firebase-admin');
 const fs = require('fs');
 
