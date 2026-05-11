@@ -1,0 +1,107 @@
+<div id="cookieBanner" class="cookie-banner">
+    <div class="cookie-content">
+        <div class="cookie-icon">🍪</div>
+        <div class="cookie-text">
+            <h4>Cookie Consent</h4>
+            <p>We use cookies to enhance your experience and analyze traffic. By continuing, you agree to our <a href="/cookies">Cookie Policy</a>.</p>
+        </div>
+        <div class="cookie-actions">
+            <button class="cookie-btn primary" onclick="acceptCookies()">Got it!</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.cookie-banner {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    max-width: 500px;
+    background: rgba(13, 13, 31, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 1.5rem;
+    z-index: 9999;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    display: none;
+    transform: translateY(100px);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.cookie-banner.active {
+    display: block;
+    transform: translateY(0);
+}
+
+.cookie-content {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.cookie-icon {
+    font-size: 2rem;
+}
+
+.cookie-text h4 {
+    margin: 0 0 4px;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.cookie-text p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.5;
+}
+
+.cookie-text a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.cookie-btn.primary {
+    background: var(--gradient-accent);
+    border: none;
+    color: #fff;
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform 0.3s;
+}
+
+.cookie-btn.primary:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+    .cookie-banner {
+        bottom: 12px; left: 12px; right: 12px;
+        max-width: none;
+    }
+    .cookie-content { flex-direction: column; text-align: center; }
+}
+</style>
+
+<script>
+function showCookieBanner() {
+    if (!localStorage.getItem('cookiesAccepted')) {
+        setTimeout(() => {
+            document.getElementById('cookieBanner').classList.add('active');
+        }, 2000);
+    }
+}
+
+function acceptCookies() {
+    localStorage.setItem('cookiesAccepted', 'true');
+    document.getElementById('cookieBanner').classList.remove('active');
+}
+
+window.addEventListener('load', showCookieBanner);
+</script>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DMCA Takedown Request — ModVault</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+  <style>.legal{max-width:780px;margin:0 auto;padding:110px 5% 4rem}.legal h1{font-size:2rem;font-weight:900;margin-bottom:0.5rem}.legal .date{color:var(--text-muted);font-size:0.85rem;margin-bottom:2.5rem}.legal h2{font-size:1.1rem;font-weight:800;margin:2rem 0 0.75rem}.legal p,.legal li{color:var(--text-secondary);font-size:0.95rem;line-height:1.8;margin-bottom:0.75rem}.legal ul{padding-left:1.5rem}.legal li{margin-bottom:0.4rem}.legal a{color:var(--accent)}.form-group{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem}.form-label{font-size:0.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em}.form-input,.form-textarea{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-family:var(--font);font-size:0.9rem;padding:0.65rem 1rem;transition:0.3s}.form-input:focus,.form-textarea:focus{outline:none;border-color:var(--accent)}.form-textarea{resize:vertical;min-height:120px}.dmca-form{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;margin-top:2rem}</style>
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo"><span class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></span><span class="logo-text">Mod<span class="logo-accent">Vault</span></span></a>
+    
+    <div class="nav-links">
+      <a href="/games" class="nav-link"><i class="fa-solid fa-gamepad"></i> Games</a>
+      <a href="/apps" class="nav-link"><i class="fa-solid fa-mobile-screen"></i> Apps</a>
+      <a href="/categories" class="nav-link"><i class="fa-solid fa-grid-2"></i> Categories</a>
+      <a href="/latest" class="nav-link"><i class="fa-solid fa-fire"></i> Latest</a>
+    </div>
+    
+    <% if (user) { %>
+    <div class="user-menu" id="userMenu">
+        <div class="user-avatar-btn" onclick="toggleUserDropdown()">
+            <div class="user-avatar" id="navAvatar"><%= user.name.charAt(0).toUpperCase() %></div>
+            <span class="user-name" id="navUserName"><%= user.name %></span>
+            <i class="fas fa-chevron-down" style="font-size:0.7rem;color:var(--text-secondary)"></i>
+        </div>
+        <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown-header">
+                <div class="user-dropdown-name" id="ddName"><%= user.name %></div>
+                <div class="user-dropdown-email" id="ddEmail"><%= user.email %></div>
+                <div class="user-dropdown-badge <%= user.role === 'admin' ? 'admin' : '' %>" id="ddBadge"><%= user.role === 'admin' ? 'Admin' : 'User' %></div>
+            </div>
+            <a href="/profile" class="user-dropdown-item"><i class="fas fa-user"></i> My Profile</a>
+            <a href="/downloads" class="user-dropdown-item"><i class="fas fa-download"></i> My Downloads</a>
+            <% if (user.role === 'admin') { %>
+            <a href="/admin" class="user-dropdown-item"><i class="fas fa-cog"></i> Admin Panel</a>
+            <% } %>
+            <div class="user-dropdown-divider"></div>
+            <button type="button" class="user-dropdown-item danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </div>
+    <% } else { %>
+    <div class="nav-auth-btns">
+        <button class="btn-login" onclick="openAuth('login')"><i class="fas fa-sign-in-alt"></i> Login</button>
+        <button class="btn-signup" onclick="openAuth('signup')"><i class="fas fa-user-plus"></i> Sign Up</button>
+    </div>
+    <% } %>
+
+  </div>
+</nav>
+
+<div class="legal">
+  <h1>📋 DMCA Takedown</h1>
+  <div class="date">We respond to all valid DMCA requests within 48 hours.</div>
+
+  <p>ModVault respects intellectual property rights. If you are a copyright holder and believe that content on our site infringes your copyright, please submit a takedown request using the form below.</p>
+
+  <h2>What to Include</h2>
+  <ul>
+    <li>Your full name and contact information</li>
+    <li>Description of the copyrighted work</li>
+    <li>The specific URL on our site containing the infringing content</li>
+    <li>A statement that you have a good faith belief that the use is not authorized</li>
+    <li>Your electronic or physical signature</li>
+  </ul>
+
+  <div class="dmca-form">
+    <h2 style="margin-top:0">Submit DMCA Request</h2>
+    <div class="form-group">
+      <label class="form-label">Your Full Name *</label>
+      <input class="form-input" id="dmca-name" placeholder="John Smith" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email Address *</label>
+      <input class="form-input" type="email" id="dmca-email" placeholder="your@email.com" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Company / Organization</label>
+      <input class="form-input" id="dmca-company" placeholder="(optional)" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Infringing URL on ModVault *</label>
+      <input class="form-input" id="dmca-url" placeholder="https://modapk.jo3.org/app/..." />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description of Copyrighted Work *</label>
+      <textarea class="form-textarea" id="dmca-desc" placeholder="Describe the original work and how it is being infringed..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Electronic Signature (type your name) *</label>
+      <input class="form-input" id="dmca-sig" placeholder="I certify that I am the copyright owner..." />
+    </div>
+    <button class="btn-primary" onclick="submitDMCA()" style="margin-top:0.5rem">
+      <i class="fa-solid fa-paper-plane"></i> Submit Request
+    </button>
+    <div id="dmca-msg" style="margin-top:1rem;font-size:0.88rem"></div>
+  </div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-bottom" style="border-top:none;padding-top:0"><p>© 2025 ModVault · <a href="/disclaimer">Disclaimer</a> · <a href="/privacy">Privacy</a></p></div></div></footer>
+<script>
+window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>30));
+function submitDMCA(){
+  const name=document.getElementById('dmca-name').value.trim();
+  const email=document.getElementById('dmca-email').value.trim();
+  const url=document.getElementById('dmca-url').value.trim();
+  const desc=document.getElementById('dmca-desc').value.trim();
+  if(!name||!email||!url||!desc){document.getElementById('dmca-msg').innerHTML='<span style="color:#ff4757">⚠️ Please fill all required fields.</span>';return;}
+  document.getElementById('dmca-msg').innerHTML='<span style="color:var(--accent-2)">✅ Your DMCA request has been submitted. We will respond within 48 hours.</span>';
+}
+</script>
+  
+  
+  
+  <%- include('partials/firebase') %>
+  <%- include('partials/cookie_banner') %>
+  <%- include('partials/auth_modals') %>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

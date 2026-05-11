@@ -1,0 +1,184 @@
+<!-- ═══ LOGIN PAGE ═══ -->
+<div class="auth-wrapper" id="loginPage">
+    <div class="auth-card">
+        <button class="auth-close" onclick="closeAuth()"><i class="fas fa-times"></i></button>
+        <div class="auth-logo">Mod<span>Zone</span></div>
+        <h2 class="auth-title">Welcome Back! 👋</h2>
+        <p class="auth-subtitle">Sign in to download MOD APKs</p>
+
+        <div class="auth-error" id="loginError"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+
+        <form onsubmit="handleLogin(event)">
+            <div class="auth-form-group">
+                <label class="auth-label">Email or Username</label>
+                <div class="auth-input-wrap">
+                    <i class="fas fa-envelope auth-input-icon"></i>
+                    <input type="text" class="auth-input" id="loginEmail" placeholder="Enter email or username" required>
+                </div>
+            </div>
+
+            <div class="auth-form-group">
+                <label class="auth-label">Password</label>
+                <div class="auth-input-wrap">
+                    <i class="fas fa-lock auth-input-icon"></i>
+                    <input type="password" class="auth-input" id="loginPassword" placeholder="Enter password" required>
+                    <button type="button" class="toggle-pass" onclick="togglePassword('loginPassword',this)">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="auth-options">
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberMe">
+                    <span>Remember me</span>
+                </label>
+                <a href="#" class="forgot-link" onclick="forgotPassword()">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="auth-btn" id="loginBtn">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </form>
+
+        <div class="auth-divider">OR CONTINUE WITH</div>
+
+        <div class="social-buttons">
+            <button class="social-btn google" onclick="socialLogin('Google')" type="button">
+                <i class="fab fa-google"></i> Google
+            </button>
+            <button class="social-btn facebook" onclick="socialLogin('Facebook')" type="button">
+                <i class="fab fa-facebook"></i> Facebook
+            </button>
+        </div>
+
+        <div class="auth-footer">
+            Don't have an account? <a style="cursor:pointer;" onclick="switchAuth('signup')">Sign Up</a>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ SIGNUP PAGE ═══ -->
+<div class="auth-wrapper" id="signupPage">
+    <div class="auth-card">
+        <button class="auth-close" onclick="closeAuth()"><i class="fas fa-times"></i></button>
+        <div class="auth-logo">Mod<span>Zone</span></div>
+        <h2 class="auth-title">Create Account 🚀</h2>
+        <p class="auth-subtitle">Join thousands of MOD APK users</p>
+
+        <div class="auth-error" id="signupError"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+        <div class="auth-success" id="signupSuccess"><i class="fas fa-check-circle"></i> <span></span></div>
+
+        <form onsubmit="handleSignup(event)">
+            <div class="auth-form-group">
+                <label class="auth-label">Full Name</label>
+                <div class="auth-input-wrap">
+                    <i class="fas fa-user auth-input-icon"></i>
+                    <input type="text" class="auth-input" id="signupName" placeholder="John Doe" required>
+                </div>
+            </div>
+
+            <div class="auth-form-group">
+                <label class="auth-label">Username</label>
+                <div class="auth-input-wrap">
+                    <i class="fas fa-at auth-input-icon"></i>
+                    <input type="text" class="auth-input" id="signupUsername" placeholder="johndoe" required>
+                </div>
+            </div>
+
+            <div class="auth-form-group">
+                <label class="auth-label">Email Address</label>
+                <div class="auth-input-wrap">
+                    <i class="fas fa-envelope auth-input-icon"></i>
+                    <input type="email" class="auth-input" id="signupEmail" placeholder="email@example.com" required>
+                </div>
+            </div>
+
+            <div class="auth-form-group">
+                <label class="auth-label">Password</label>
+                <div class="auth-input-wrap">
+                    <i class="fas fa-lock auth-input-icon"></i>
+                    <input type="password" class="auth-input" id="signupPassword" placeholder="Min. 6 characters" required oninput="checkPasswordStrength(this.value)">
+                    <button type="button" class="toggle-pass" onclick="togglePassword('signupPassword',this)">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="pass-strength" id="passStrength">
+                    <div class="pass-strength-bar">
+                        <div class="pass-strength-fill" id="passStrengthFill"></div>
+                    </div>
+                    <div class="pass-strength-text">
+                        <span id="passStrengthLabel">Weak</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="auth-form-group">
+                <label class="auth-label">Confirm Password</label>
+                <div class="auth-input-wrap">
+                    <i class="fas fa-lock auth-input-icon"></i>
+                    <input type="password" class="auth-input" id="signupConfirm" placeholder="Re-enter password" required>
+                </div>
+            </div>
+
+            <div class="auth-options">
+                <label class="remember-me">
+                    <input type="checkbox" id="agreeTerms" required>
+                    <span>I agree to the <a href="#" style="color:var(--primary)">Terms</a> & <a href="#" style="color:var(--primary)">Privacy</a></span>
+                </label>
+            </div>
+
+            <button type="submit" class="auth-btn" id="signupBtn">
+                <i class="fas fa-user-plus"></i> Create Account
+            </button>
+        </form>
+
+        <div class="auth-divider">OR SIGN UP WITH</div>
+
+        <div class="social-buttons">
+            <button class="social-btn google" onclick="socialLogin('Google')" type="button">
+                <i class="fab fa-google"></i> Google
+            </button>
+            <button class="social-btn facebook" onclick="socialLogin('Facebook')" type="button">
+                <i class="fab fa-facebook"></i> Facebook
+            </button>
+        </div>
+
+        <div class="auth-footer">
+            Already have an account? <a style="cursor:pointer;" onclick="switchAuth('login')">Sign In</a>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ FORGOT PASSWORD PAGE ═══ -->
+<div class="auth-wrapper" id="forgotPage">
+    <div class="auth-card">
+        <button class="auth-close" onclick="closeAuth()"><i class="fas fa-times"></i></button>
+        <div class="auth-logo">Mod<span>Zone</span></div>
+        <h2 class="auth-title">Reset Password 🔑</h2>
+        <p class="auth-subtitle">Enter your email to receive reset link</p>
+
+        <div class="auth-success" id="forgotSuccess"><i class="fas fa-check-circle"></i> <span></span></div>
+
+        <form onsubmit="handleForgot(event)">
+            <div class="auth-form-group">
+                <label class="auth-label">Email Address</label>
+                <div class="auth-input-wrap">
+                    <i class="fas fa-envelope auth-input-icon"></i>
+                    <input type="email" class="auth-input" id="forgotEmail" placeholder="email@example.com" required>
+                </div>
+            </div>
+
+            <button type="submit" class="auth-btn">
+                <i class="fas fa-paper-plane"></i> Send Reset Link
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Remember password? <a style="cursor:pointer;" onclick="switchAuth('login')">Sign In</a>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>

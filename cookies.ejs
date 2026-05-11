@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cookie Policy — ModVault</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+  <style>.legal{max-width:780px;margin:0 auto;padding:110px 5% 4rem}.legal h1{font-size:2rem;font-weight:900;margin-bottom:0.5rem}.legal .date{color:var(--text-muted);font-size:0.85rem;margin-bottom:2.5rem}.legal h2{font-size:1.1rem;font-weight:800;margin:2rem 0 0.75rem}.legal p,.legal li{color:var(--text-secondary);font-size:0.95rem;line-height:1.8;margin-bottom:0.75rem}.legal ul{padding-left:1.5rem}.legal li{margin-bottom:0.4rem}.legal a{color:var(--accent)}</style>
+</head>
+<body>
+<nav class="navbar" id="navbar"><div class="nav-container"><a href="/" class="nav-logo"><span class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></span><span class="logo-text">Mod<span class="logo-accent">Vault</span></span></a>
+    <div class="nav-links">
+      <a href="/games" class="nav-link"><i class="fa-solid fa-gamepad"></i> Games</a>
+      <a href="/apps" class="nav-link"><i class="fa-solid fa-mobile-screen"></i> Apps</a>
+      <a href="/categories" class="nav-link"><i class="fa-solid fa-grid-2"></i> Categories</a>
+      <a href="/latest" class="nav-link"><i class="fa-solid fa-fire"></i> Latest</a>
+    </div>
+    
+    <% if (user) { %>
+    <div class="user-menu" id="userMenu">
+        <div class="user-avatar-btn" onclick="toggleUserDropdown()">
+            <div class="user-avatar" id="navAvatar"><%= user.name.charAt(0).toUpperCase() %></div>
+            <span class="user-name" id="navUserName"><%= user.name %></span>
+            <i class="fas fa-chevron-down" style="font-size:0.7rem;color:var(--text-secondary)"></i>
+        </div>
+        <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown-header">
+                <div class="user-dropdown-name" id="ddName"><%= user.name %></div>
+                <div class="user-dropdown-email" id="ddEmail"><%= user.email %></div>
+                <div class="user-dropdown-badge <%= user.role === 'admin' ? 'admin' : '' %>" id="ddBadge"><%= user.role === 'admin' ? 'Admin' : 'User' %></div>
+            </div>
+            <a href="/profile" class="user-dropdown-item"><i class="fas fa-user"></i> My Profile</a>
+            <a href="/downloads" class="user-dropdown-item"><i class="fas fa-download"></i> My Downloads</a>
+            <% if (user.role === 'admin') { %>
+            <a href="/admin" class="user-dropdown-item"><i class="fas fa-cog"></i> Admin Panel</a>
+            <% } %>
+            <div class="user-dropdown-divider"></div>
+            <button type="button" class="user-dropdown-item danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </div>
+    <% } else { %>
+    <div class="nav-auth-btns">
+        <button class="btn-login" onclick="openAuth('login')"><i class="fas fa-sign-in-alt"></i> Login</button>
+        <button class="btn-signup" onclick="openAuth('signup')"><i class="fas fa-user-plus"></i> Sign Up</button>
+    </div>
+    <% } %>
+</div></nav>
+
+<div class="legal">
+  <h1>🍪 Cookie Policy</h1>
+  <div class="date">Last updated: April 2025</div>
+
+  <p>This Cookie Policy explains how ModVault uses cookies and similar technologies to recognize you when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them.</p>
+
+  <h2>1. What are cookies?</h2>
+  <p>Cookies are small data files that are placed on your computer or mobile device when you visit a website. Cookies are widely used by website owners in order to make their websites work, or to work more efficiently, as well as to provide reporting information.</p>
+
+  <h2>2. Why do we use cookies?</h2>
+  <p>We use first-party and third-party cookies for several reasons:</p>
+  <ul>
+    <li><strong>Essential Cookies:</strong> These are strictly necessary to provide you with services available through our Website (e.g., keeping you logged in).</li>
+    <li><strong>Analytics Cookies:</strong> These cookies help us understand how our Website is being used and how effective our marketing campaigns are.</li>
+    <li><strong>Advertising Cookies:</strong> These cookies are used to make advertising messages more relevant to you and your interests.</li>
+  </ul>
+
+  <h2>3. Third-Party Cookies</h2>
+  <p>In addition to our own cookies, we may also use various third-parties cookies to report usage statistics of the Website, deliver advertisements on and through the Website, and so on.</p>
+  <ul>
+    <li>Google Analytics</li>
+    <li>Google AdSense</li>
+  </ul>
+
+  <h2>4. How can I control cookies?</h2>
+  <p>Most web browsers allow you to control cookies through their settings preferences. However, if you limit the ability of websites to set cookies, you may worsen your overall user experience, as it will no longer be personalized to you.</p>
+
+  <h2>5. Changes to our Cookie Policy</h2>
+  <p>We may update this Cookie Policy from time to time in order to reflect changes to the cookies we use or for other operational, legal or regulatory reasons.</p>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-bottom" style="border-top:none;padding-top:0"><p>© 2025 ModVault · <a href="/terms">Terms</a> · <a href="/privacy">Privacy Policy</a></p></div></div></footer>
+<script>window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>30))</script>
+  
+  
+  
+  <%- include('partials/firebase') %>
+  <%- include('partials/cookie_banner') %>
+  <%- include('partials/auth_modals') %>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

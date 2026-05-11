@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Downloads — ModVault</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+  <style>
+    .main-wrapper { padding-top: 100px; min-height: 80vh; max-width: 1200px; margin: 0 auto; padding-left: 2rem; padding-right: 2rem;}
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">
+      <span class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></span>
+      <span class="logo-text">Mod<span class="logo-accent">Vault</span></span>
+    </a>
+    
+    <div class="nav-links">
+      <a href="/games" class="nav-link"><i class="fa-solid fa-gamepad"></i> Games</a>
+      <a href="/apps" class="nav-link"><i class="fa-solid fa-mobile-screen"></i> Apps</a>
+      <a href="/categories" class="nav-link"><i class="fa-solid fa-grid-2"></i> Categories</a>
+      <a href="/latest" class="nav-link"><i class="fa-solid fa-fire"></i> Latest</a>
+    </div>
+    
+    <% if (user) { %>
+    <div class="user-menu" id="userMenu">
+        <div class="user-avatar-btn" onclick="toggleUserDropdown()">
+            <div class="user-avatar" id="navAvatar"><%= user.name.charAt(0).toUpperCase() %></div>
+            <span class="user-name" id="navUserName"><%= user.name %></span>
+            <i class="fas fa-chevron-down" style="font-size:0.7rem;color:var(--text-secondary)"></i>
+        </div>
+        <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown-header">
+                <div class="user-dropdown-name" id="ddName"><%= user.name %></div>
+                <div class="user-dropdown-email" id="ddEmail"><%= user.email %></div>
+                <div class="user-dropdown-badge <%= user.role === 'admin' ? 'admin' : '' %>" id="ddBadge"><%= user.role === 'admin' ? 'Admin' : 'User' %></div>
+            </div>
+            <a href="/profile" class="user-dropdown-item"><i class="fas fa-user"></i> My Profile</a>
+            <a href="/downloads" class="user-dropdown-item"><i class="fas fa-download"></i> My Downloads</a>
+            <% if (user.role === 'admin') { %>
+            <a href="/admin" class="user-dropdown-item"><i class="fas fa-cog"></i> Admin Panel</a>
+            <% } %>
+            <div class="user-dropdown-divider"></div>
+            <button type="button" class="user-dropdown-item danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </div>
+    <% } %>
+
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="main-wrapper">
+    <div class="section-header">
+        <h2 class="section-title"><i class="fas fa-download" style="color:var(--accent)"></i> Download History</h2>
+    </div>
+
+    <% if (downloads && downloads.length > 0) { %>
+      <div class="cards-grid">
+        <% downloads.forEach(apk => { %>
+          <%- include('partials/_apk_card', { apk: apk }) %>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div style="text-align:center; padding: 4rem; background: var(--bg-card); border-radius: var(--radius); border: 1px solid var(--border);">
+        <i class="fas fa-box-open" style="font-size:3rem; color:var(--text-muted); margin-bottom:1rem"></i>
+        <h3 style="margin-bottom:0.5rem">No Downloads Yet</h3>
+        <p style="color: var(--text-muted);">You haven't downloaded any MOD APKs. Find something you like!</p>
+        <a href="/" class="btn-primary mt-2">Browse APKs</a>
+      </div>
+    <% } %>
+</div>
+
+
+  
+
+  <%- include('partials/firebase') %>
+  <%- include('partials/cookie_banner') %>
+  <%- include('partials/auth_modals') %>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

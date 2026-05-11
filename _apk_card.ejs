@@ -1,0 +1,26 @@
+<div class="apk-card" onclick="window.location.href='/app/<%= apk.slug %>'">
+  <div class="card-icon-wrap">
+    <div class="card-icon" style="background:<%= apk.icon_bg %>"><%= apk.icon %></div>
+    <div class="card-title-group">
+      <div class="card-name"><%= apk.name %></div>
+      <div class="card-version">v<%= apk.version %></div>
+      <div class="card-rating">
+        <% for(let i=0; i < Math.floor(apk.rating); i++) { %> <i class="fa-solid fa-star"></i> <% } %>
+        <% if(apk.rating % 1 >= 0.5) { %> <i class="fa-solid fa-star-half-stroke"></i> <% } %>
+        <span style="color:var(--text-muted)"><%= apk.rating %></span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="card-mod-badge"><i class="fa-solid fa-circle-check"></i> <%= apk.mod_features && apk.mod_features.length ? apk.mod_features[0] : 'MOD Unlocked' %></div>
+    <div class="card-meta">
+      <span><i class="fa-solid fa-box"></i> <%= apk.size %></span>
+      <span><i class="fa-brands fa-android"></i> <%= apk.android_required %></span>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button class="btn-download" onclick="event.stopPropagation();startDownload('<%= apk.slug %>')">
+      <i class="fa-solid fa-download"></i> Download MOD
+    </button>
+  </div>
+</div>

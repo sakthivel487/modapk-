@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel — ModVault</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+  <style>
+    body{background:var(--bg-primary)}
+    .form-group{display:flex;flex-direction:column;gap:0.4rem;text-align:left;margin-bottom:1rem}
+    .form-label{font-size:0.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em}
+    .form-input,.form-select,.form-textarea{background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-family:var(--font);font-size:0.9rem;padding:0.65rem 1rem;transition:var(--transition)}
+    .form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--accent)}
+    .form-textarea{resize:vertical;min-height:90px}
+    
+    /* Layout */
+    .admin-wrap{display:flex;min-height:100vh;padding-top:64px}
+    .sidebar{width:220px;background:var(--bg-secondary);border-right:1px solid var(--border);padding:1.2rem 0.8rem;display:flex;flex-direction:column;gap:0.3rem;position:fixed;top:64px;bottom:0;overflow-y:auto}
+    .sidebar-section{font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);padding:0.5rem 0.75rem;margin-top:0.5rem}
+    .sidebar-link{display:flex;align-items:center;gap:0.65rem;padding:0.6rem 0.75rem;border-radius:var(--radius-sm);color:var(--text-secondary);font-size:0.88rem;font-weight:600;transition:var(--transition);cursor:pointer;border:none;background:none;font-family:var(--font);width:100%;text-align:left}
+    .sidebar-link:hover,.sidebar-link.active{background:rgba(108,99,255,0.12);color:var(--accent)}
+    .sidebar-link i{width:16px;text-align:center}
+    .admin-content{flex:1;margin-left:220px;padding:2rem}
+    .admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+    .admin-title{font-size:1.4rem;font-weight:900}
+    /* Stats */
+    .stats-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+    .stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;display:flex;align-items:center;gap:1rem}
+    .stat-icon{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:1.2rem;flex-shrink:0}
+    .stat-num{font-size:1.5rem;font-weight:900}
+    .stat-lbl{font-size:0.76rem;color:var(--text-muted)}
+    /* Panel */
+    .panel{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1.5rem;display:none}
+    .panel.active{display:block}
+    .panel-header{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .panel-title{font-weight:800;font-size:1rem;display:flex;align-items:center;gap:0.5rem}
+    .panel-body{padding:1.5rem}
+    /* Form grid */
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .form-grid .full{grid-column:1/-1}
+    /* Table */
+    .tbl{width:100%;border-collapse:collapse}
+    .tbl th{text-align:left;padding:0.7rem 1rem;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);border-bottom:1px solid var(--border)}
+    .tbl td{padding:0.8rem 1rem;border-bottom:1px solid var(--border);font-size:0.88rem;color:var(--text-secondary);vertical-align:middle}
+    .tbl tr:last-child td{border-bottom:none}
+    .tbl tr:hover td{background:rgba(255,255,255,0.02)}
+    .tbl-ico{width:34px;height:34px;border-radius:8px;display:inline-grid;place-items:center;font-size:1rem;margin-right:0.5rem;vertical-align:middle}
+    .abtn{padding:0.28rem 0.65rem;border-radius:6px;font-family:var(--font);font-size:0.76rem;font-weight:600;cursor:pointer;border:1px solid;transition:var(--transition)}
+    .abtn-view{border-color:rgba(108,99,255,0.4);color:var(--accent);background:rgba(108,99,255,0.08)}
+    .abtn-del{border-color:rgba(255,71,87,0.4);color:#ff4757;background:rgba(255,71,87,0.08)}
+    @media(max-width:768px){.sidebar{display:none}.admin-content{margin-left:0}.stats-cards{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo"><span class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></span><span class="logo-text">Mod<span class="logo-accent">Vault</span></span></a>
+    <span style="color:var(--accent);font-size:0.85rem;font-weight:700;margin-left:auto"><i class="fa-solid fa-shield-halved"></i> Admin Mode</span>
+    <a href="/admin/logout" class="btn-outline" style="margin-left:1rem;padding:0.38rem 1rem;font-size:0.82rem;text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+  </div>
+</nav>
+
+<!-- ADMIN LAYOUT -->
+<div class="admin-wrap" id="admin-wrap">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-section">Main</div>
+    <button class="sidebar-link active" id="sl-dashboard" onclick="showPanel('dashboard',this)"><i class="fa-solid fa-gauge"></i> Dashboard</button>
+    <button class="sidebar-link" id="sl-upload" onclick="showPanel('upload',this)"><i class="fa-solid fa-upload"></i> Upload APK</button>
+    <button class="sidebar-link" id="sl-manage" onclick="showPanel('manage',this)"><i class="fa-solid fa-list"></i> Manage APKs</button>
+    <div style="margin-top:auto;padding-top:1rem;border-top:1px solid var(--border)">
+      <a href="/" class="sidebar-link"><i class="fa-solid fa-arrow-left"></i> View Site</a>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="admin-content">
+
+    <!-- DASHBOARD -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="admin-header">
+        <div class="admin-title">Dashboard</div>
+        <span style="color:var(--text-muted);font-size:0.85rem" id="dash-date"><%= new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) %></span>
+      </div>
+      <div class="stats-cards">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(108,99,255,0.15);color:var(--accent)"><i class="fa-solid fa-box-archive"></i></div>
+          <div><div class="stat-num" id="s-total"><%= stats.total %></div><div class="stat-lbl">Total APKs</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(0,212,170,0.15);color:var(--accent-2)"><i class="fa-solid fa-download"></i></div>
+          <div><div class="stat-num" id="s-dls"><%= stats.downloads >= 1000000 ? (stats.downloads/1000000).toFixed(1)+'M' : stats.downloads %></div><div class="stat-lbl">Downloads</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(255,107,53,0.15);color:var(--accent-3)"><i class="fa-solid fa-gamepad"></i></div>
+          <div><div class="stat-num" id="s-games"><%= stats.games %></div><div class="stat-lbl">Games</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(255,71,87,0.15);color:#ff4757"><i class="fa-solid fa-mobile-screen"></i></div>
+          <div><div class="stat-num" id="s-apps"><%= stats.apps %></div><div class="stat-lbl">Apps</div></div>
+        </div>
+      </div>
+      <div class="panel" style="display:block">
+        <div class="panel-header"><span class="panel-title"><i class="fa-solid fa-trophy" style="color:#ffa502"></i> Top APKs</span></div>
+        <div class="panel-body" style="padding:0">
+          <table class="tbl"><thead><tr><th>App</th><th>Category</th><th>Downloads</th><th>Rating</th></tr></thead>
+          <tbody id="top-tbody">
+            <% apks.sort((a,b)=>b.downloads-a.downloads).slice(0,5).forEach(apk => { %>
+            <tr>
+              <td><span class="tbl-ico" style="background:<%= apk.icon_bg %>"><%= apk.icon %></span><%= apk.name %></td>
+              <td><%= apk.category.charAt(0).toUpperCase() + apk.category.slice(1) %></td>
+              <td><%= apk.downloads >= 1000000 ? (apk.downloads/1000000).toFixed(1)+'M' : apk.downloads %></td>
+              <td>⭐ <%= apk.rating %></td>
+            </tr>
+            <% }) %>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- UPLOAD -->
+    <div class="panel" id="panel-upload">
+      <div class="panel-header"><span class="panel-title"><i class="fa-solid fa-upload" style="color:var(--accent)"></i> Upload New APK</span></div>
+      <div class="panel-body">
+        <form id="upload-form" onsubmit="submitApk(event)">
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">App Name *</label><input class="form-input" id="f-name" required placeholder="e.g. Minecraft" /></div>
+            <div class="form-group"><label class="form-label">Version *</label><input class="form-input" id="f-ver" required placeholder="e.g. 1.21.0" /></div>
+            <div class="form-group"><label class="form-label">Category</label>
+              <select class="form-select" id="f-cat"><option value="games">🎮 Games</option><option value="apps">📱 Apps</option></select>
+            </div>
+            <div class="form-group"><label class="form-label">Sub-Category</label>
+              <select class="form-select" id="f-sub">
+                <option value="action">Action</option><option value="rpg">RPG</option><option value="strategy">Strategy</option>
+                <option value="puzzle">Puzzle</option><option value="racing">Racing</option><option value="adventure">Adventure</option>
+                <option value="social">Social</option><option value="entertainment">Entertainment</option>
+                <option value="music">Music</option><option value="tools">Tools</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">File Size</label><input class="form-input" id="f-size" placeholder="85 MB" /></div>
+            <div class="form-group"><label class="form-label">Android Required</label><input class="form-input" id="f-android" placeholder="5.0+" /></div>
+            <div class="form-group"><label class="form-label">Rating</label><input class="form-input" type="number" id="f-rating" min="0" max="5" step="0.1" placeholder="4.5" /></div>
+            <div class="form-group"><label class="form-label">Icon (Emoji)</label><input class="form-input" id="f-icon" placeholder="⛏️" /></div>
+            <div class="form-group full"><label class="form-label">APK Download URL *</label><input class="form-input" id="f-url" type="url" required placeholder="https://drive.google.com/..." /></div>
+            <div class="form-group full"><label class="form-label">MOD Features (one per line)</label><textarea class="form-textarea" id="f-features" placeholder="Unlimited Money&#10;No Ads&#10;Premium Unlocked"></textarea></div>
+            <div class="form-group full"><label class="form-label">Description</label><textarea class="form-textarea" id="f-desc" placeholder="Full description..."></textarea></div>
+            <div class="form-group full"><label class="form-label">How to Install (one step per line)</label><textarea class="form-textarea" id="f-install" placeholder="Enable Unknown Sources&#10;Install APK&#10;Open and enjoy"></textarea></div>
+          </div>
+          <div style="margin-top:1.2rem;display:flex;gap:0.75rem;flex-wrap:wrap">
+            <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save APK</button>
+            <button type="button" class="btn-outline" onclick="document.getElementById('upload-form').reset()"><i class="fa-solid fa-rotate-left"></i> Clear</button>
+          </div>
+          <div id="upload-msg" style="margin-top:1rem;font-size:0.88rem"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MANAGE -->
+    <div class="panel" id="panel-manage">
+      <div class="panel-header">
+        <span class="panel-title"><i class="fa-solid fa-list" style="color:var(--accent)"></i> Manage APKs</span>
+        <input class="form-input" id="mgr-q" placeholder="Search..." style="width:180px;padding:0.38rem 0.8rem" oninput="filterTable()" />
+      </div>
+      <div style="padding:0">
+        <table class="tbl">
+          <thead><tr><th>App</th><th>Category</th><th>Version</th><th>Downloads</th><th>Date</th><th>Actions</th></tr></thead>
+          <tbody id="mgr-body">
+            <% apks.forEach(apk => { %>
+            <tr class="apk-row" data-name="<%= apk.name.toLowerCase() %>">
+              <td><span class="tbl-ico" style="background:<%= apk.icon_bg %>"><%= apk.icon %></span><%= apk.name %></td>
+              <td><%= apk.category %></td><td>v<%= apk.version %></td><td><%= apk.downloads %></td><td><%= apk.upload_date %></td>
+              <td style="display:flex;gap:0.4rem">
+                <a href="/app/<%= apk.slug %>" target="_blank" class="abtn abtn-view" style="text-decoration:none;"><i class="fa-solid fa-eye"></i></a>
+                <button class="abtn abtn-del" onclick="deleteApk('<%= apk.id %>', '<%= apk.name %>')"><i class="fa-solid fa-trash"></i></button>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function showPanel(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  if(el)el.classList.add('active');
+}
+
+function filterTable(){
+  const q = document.getElementById('mgr-q').value.toLowerCase();
+  document.querySelectorAll('.apk-row').forEach(row => {
+    row.style.display = row.dataset.name.includes(q) ? '' : 'none';
+  });
+}
+
+async function submitApk(e){
+  e.preventDefault();
+  const data = {
+    name: document.getElementById('f-name').value,
+    version: document.getElementById('f-ver').value,
+    category: document.getElementById('f-cat').value,
+    sub_category: document.getElementById('f-sub').value,
+    size: document.getElementById('f-size').value,
+    android_required: document.getElementById('f-android').value,
+    rating: document.getElementById('f-rating').value,
+    icon: document.getElementById('f-icon').value,
+    download_url: document.getElementById('f-url').value,
+    mod_features: document.getElementById('f-features').value,
+    description: document.getElementById('f-desc').value,
+    how_to_install: document.getElementById('f-install').value
+  };
+
+  try {
+    const res = await fetch('/admin/api/apk', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    const result = await res.json();
+    if(result.success) {
+      document.getElementById('upload-msg').innerHTML = `<span style="color:var(--accent-2)">✅ Successfully added!</span>`;
+      document.getElementById('upload-form').reset();
+      setTimeout(() => window.location.reload(), 1500);
+    } else {
+      document.getElementById('upload-msg').innerHTML = `<span style="color:#ff4757">⚠️ Error: ${result.error}</span>`;
+    }
+  } catch (err) {
+    document.getElementById('upload-msg').innerHTML = `<span style="color:#ff4757">⚠️ Server error</span>`;
+  }
+}
+
+async function deleteApk(id, name) {
+  if(!confirm(`Are you sure you want to delete ${name}?`)) return;
+  try {
+    const res = await fetch(`/admin/api/apk/${id}`, { method: 'DELETE' });
+    const result = await res.json();
+    if (result.success) {
+      window.location.reload();
+    } else {
+      alert("Error: " + result.error);
+    }
+  } catch (err) {
+    alert("Server error");
+  }
+}
+</script>
+  
+  
+  
+  <%- include('partials/firebase') %>
+  <%- include('partials/cookie_banner') %>
+  <%- include('partials/auth_modals') %>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

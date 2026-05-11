@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= apk.name %> MOD APK v<%= apk.version %> - Download Now | ModZone</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <%- include('partials/_navbar') %>
+
+<main class="container page-content">
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="/">Home</a> <i class="fa-solid fa-chevron-right"></i>
+    <a href="/<%= apk.category %>"><%= apk.category.charAt(0).toUpperCase() + apk.category.slice(1) %></a> <i class="fa-solid fa-chevron-right"></i>
+    <span><%= apk.name %></span>
+  </div>
+
+  <div class="app-detail-card">
+    <!-- Header info -->
+    <div class="app-header-main">
+      <div class="app-header-icon" style="background:<%= apk.icon_bg %>"><%= apk.icon %></div>
+      <div class="app-header-info">
+        <h1 class="app-title"><%= apk.name %></h1>
+        <div class="app-meta">
+          <span class="meta-item"><i class="fa-solid fa-code-branch"></i> v<%= apk.version %></span>
+          <span class="meta-item"><i class="fa-solid fa-folder"></i> <%= apk.category %></span>
+          <span class="meta-item"><i class="fa-solid fa-star"></i> <%= apk.rating %></span>
+        </div>
+        <div class="app-actions">
+          <button class="btn-download-big pulse" onclick="startDownload('<%= apk.slug %>')">
+            <i class="fa-solid fa-download"></i> Download APK (<%= apk.size %>)
+          </button>
+          <button class="btn-share"><i class="fa-solid fa-share-nodes"></i> Share</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-info-grid">
+      <div class="info-row"><div class="info-label">Name</div><div class="info-val"><%= apk.name %></div></div>
+      <div class="info-row"><div class="info-label">Version</div><div class="info-val"><%= apk.version %></div></div>
+      <div class="info-row"><div class="info-label">Size</div><div class="info-val"><%= apk.size %></div></div>
+      <div class="info-row"><div class="info-label">Developer</div><div class="info-val">Official Mod</div></div>
+      <div class="info-row"><div class="info-label">Category</div><div class="info-val"><%= apk.category %></div></div>
+      <div class="info-row"><div class="info-label">Android Req</div><div class="info-val"><i class="fa-brands fa-android" style="color:#2ed573"></i> <%= apk.android_required %></div></div>
+      <div class="info-row"><div class="info-label">Update Date</div><div class="info-val"><%= apk.upload_date %></div></div>
+    </div>
+
+    <!-- MOD Features -->
+    <div class="app-section">
+      <h2 class="app-section-title"><i class="fa-solid fa-star"></i> MOD Features</h2>
+      <div class="mod-features-grid">
+        <% if (apk.mod_features && apk.mod_features.length) { %>
+          <% apk.mod_features.forEach(f => { %>
+            <div class="mod-feature-item"><i class="fa-solid fa-check"></i> <%= f %></div>
+          <% }) %>
+        <% } else { %>
+          <div class="mod-feature-item"><i class="fa-solid fa-check"></i> MOD Unlocked</div>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- AD SLOT: CONTENT BANNER -->
+    <%- include('partials/ads', { slot: '3333333333' }) %>
+
+    <!-- Description -->
+    <div class="app-section">
+      <h2 class="app-section-title"><i class="fa-solid fa-circle-info"></i> About This MOD</h2>
+      <div class="app-description"><p><%= apk.description %></p></div>
+    </div>
+
+    <!-- How to Install -->
+    <div class="app-section">
+      <h2 class="app-section-title"><i class="fa-solid fa-wrench"></i> How to Install</h2>
+      <div class="install-steps">
+        <% if (apk.how_to_install && apk.how_to_install.length) { %>
+          <% apk.how_to_install.forEach((step, idx) => { %>
+            <div class="install-step">
+              <div class="step-num"><%= idx + 1 %></div>
+              <div class="step-text"><%= step %></div>
+            </div>
+          <% }) %>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Download Box -->
+    <div class="download-box">
+      <div class="download-box-inner">
+        <div class="download-box-icon" style="background:<%= apk.icon_bg %>"><%= apk.icon %></div>
+        <div class="download-box-info">
+          <div class="download-box-name">Download <%= apk.name %> MOD</div>
+          <div class="download-box-meta">v<%= apk.version %> • <%= apk.size %></div>
+        </div>
+        <button class="btn-download-big pulse" onclick="startDownload('<%= apk.slug %>')">
+          <i class="fa-solid fa-download"></i> Download Now
+        </button>
+      </div>
+    </div>
+
+    <!-- AD SLOT: BOTTOM BANNER -->
+    <%- include('partials/ads', { slot: '4444444444' }) %>
+
+    <!-- Related Apps -->
+    <div class="app-section">
+      <h2 class="app-section-title"><i class="fa-solid fa-layer-group"></i> Related Apps</h2>
+      <div class="cards-grid">
+        <% if (typeof similar !== 'undefined') { %>
+          <% similar.forEach(sim => { %>
+            <%- include('partials/_apk_card', { apk: sim }) %>
+          <% }) %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</main>
+  
+  <%- include('partials/firebase') %>
+  <%- include('partials/cookie_banner') %>
+  <%- include('partials/auth_modals') %>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

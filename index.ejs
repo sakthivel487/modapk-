@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ModVault — Premium MOD APKs Free Download</title>
+  <meta name="description" content="Download the latest MOD APKs for Android. Unlimited Money, Premium Unlocked, No Ads. 500+ apps & games updated daily." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ModVault",
+    "url": "https://modapk.jo3.org",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://modapk.jo3.org/search.html?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">
+      <span class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></span>
+      <span class="logo-text">Mod<span class="logo-accent">Vault</span></span>
+    </a>
+    <div class="nav-search" id="nav-search-wrap">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" id="nav-search-input" class="nav-search-input" placeholder="Search APKs, games, apps..." autocomplete="off" />
+      <div class="search-dropdown" id="search-dropdown"></div>
+    </div>
+    
+    <div class="nav-links">
+      <a href="/games" class="nav-link"><i class="fa-solid fa-gamepad"></i> Games</a>
+      <a href="/apps" class="nav-link"><i class="fa-solid fa-mobile-screen"></i> Apps</a>
+      <a href="/categories" class="nav-link"><i class="fa-solid fa-grid-2"></i> Categories</a>
+      <a href="/latest" class="nav-link"><i class="fa-solid fa-fire"></i> Latest</a>
+    </div>
+    
+    <% if (user) { %>
+    <div class="user-menu" id="userMenu">
+        <div class="user-avatar-btn" onclick="toggleUserDropdown()">
+            <div class="user-avatar" id="navAvatar"><%= user.name.charAt(0).toUpperCase() %></div>
+            <span class="user-name" id="navUserName"><%= user.name %></span>
+            <i class="fas fa-chevron-down" style="font-size:0.7rem;color:var(--text-secondary)"></i>
+        </div>
+        <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown-header">
+                <div class="user-dropdown-name" id="ddName"><%= user.name %></div>
+                <div class="user-dropdown-email" id="ddEmail"><%= user.email %></div>
+                <div class="user-dropdown-badge <%= user.role === 'admin' ? 'admin' : '' %>" id="ddBadge"><%= user.role === 'admin' ? 'Admin' : 'User' %></div>
+            </div>
+            <a href="/profile" class="user-dropdown-item"><i class="fas fa-user"></i> My Profile</a>
+            <a href="/downloads" class="user-dropdown-item"><i class="fas fa-download"></i> My Downloads</a>
+            <% if (user.role === 'admin') { %>
+            <a href="/admin" class="user-dropdown-item"><i class="fas fa-cog"></i> Admin Panel</a>
+            <% } %>
+            <div class="user-dropdown-divider"></div>
+            <button type="button" class="user-dropdown-item danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </div>
+    <% } else { %>
+    <div class="nav-auth-btns">
+        <button class="btn-login" onclick="openAuth('login')"><i class="fas fa-sign-in-alt"></i> Login</button>
+        <button class="btn-signup" onclick="openAuth('signup')"><i class="fas fa-user-plus"></i> Sign Up</button>
+    </div>
+    <% } %>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="/games"><i class="fa-solid fa-gamepad"></i> Games</a>
+    <a href="/apps"><i class="fa-solid fa-mobile-screen"></i> Apps</a>
+    <a href="/categories"><i class="fa-solid fa-grid-2"></i> Categories</a>
+    <a href="/latest"><i class="fa-solid fa-fire"></i> Latest</a>
+    <a href="/search"><i class="fa-solid fa-magnifying-glass"></i> Search</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-particles" id="hero-particles"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><i class="fa-solid fa-shield-check"></i> 100% Safe & Free</div>
+    <h1 class="hero-title">Download Premium<br /><span class="gradient-text">MOD APKs</span> Free</h1>
+    <p class="hero-subtitle">Unlimited money, premium unlocked, no ads — for every Android game & app.</p>
+    <div class="hero-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="hero-search" placeholder="Search for Minecraft, GTA, Spotify..." />
+      <button onclick="heroSearch()" id="hero-search-btn">Search</button>
+    </div>
+    <div class="hero-tags">
+      <span onclick="window.location.href='search.html?q=minecraft'">Minecraft</span>
+      <span onclick="window.location.href='search.html?q=spotify'">Spotify</span>
+      <span onclick="window.location.href='search.html?q=pubg'">PUBG</span>
+      <span onclick="window.location.href='search.html?q=gta'">GTA</span>
+      <span onclick="window.location.href='search.html?q=netflix'">Netflix</span>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="phone-mockup">
+      <div class="phone-screen">
+        <div class="phone-app-grid">
+          <div class="phone-app-icon" style="background:linear-gradient(135deg,#ff6b35,#f7c59f)"><i class="fa-solid fa-fire"></i></div>
+          <div class="phone-app-icon" style="background:linear-gradient(135deg,#6c63ff,#a78bfa)"><i class="fa-solid fa-gamepad"></i></div>
+          <div class="phone-app-icon" style="background:linear-gradient(135deg,#00d4aa,#00b4d8)"><i class="fa-solid fa-music"></i></div>
+          <div class="phone-app-icon" style="background:linear-gradient(135deg,#ff4757,#ff6b81)"><i class="fa-solid fa-video"></i></div>
+          <div class="phone-app-icon" style="background:linear-gradient(135deg,#ffa502,#ff6348)"><i class="fa-solid fa-crown"></i></div>
+          <div class="phone-app-icon" style="background:linear-gradient(135deg,#2ed573,#1e90ff)"><i class="fa-solid fa-bolt"></i></div>
+        </div>
+        <div class="phone-mod-badge"><i class="fa-solid fa-star"></i> MOD Unlocked</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS BAR ===== -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="stat-item">
+      <i class="fa-solid fa-box-archive"></i>
+      <div class="stat-info">
+        <span class="stat-num" data-target="<%= stats.apks %>"><%= stats.apks %></span><span>+</span>
+        <span class="stat-label">MOD APKs</span>
+      </div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <i class="fa-solid fa-download"></i>
+      <div class="stat-info">
+        <span class="stat-num" data-target="<%= stats.downloads %>"><%= stats.downloads %></span><span>+</span>
+        <span class="stat-label">Downloads</span>
+      </div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <i class="fa-solid fa-arrows-rotate"></i>
+      <div class="stat-info">
+        <span class="stat-num" data-target="24">24</span><span>/7</span>
+        <span class="stat-label">Daily Updates</span>
+      </div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <i class="fa-solid fa-circle-check"></i>
+      <div class="stat-info">
+        <span class="stat-num" data-target="100">100</span><span>%</span>
+        <span class="stat-label">Free Forever</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AD SLOT: TOP BANNER -->
+<div class="container">
+  <%- include('partials/ads', { slot: '1111111111' }) %>
+</div>
+
+<!-- ===== FEATURED / TRENDING ===== -->
+<section class="section" id="trending">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-icon"><i class="fa-solid fa-fire-flame-curved"></i></span>
+        <h2 class="section-title">Trending Now</h2>
+      </div>
+      <a href="/search?sort=popular" class="see-all">See All <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    
+    <div class="cards-grid">
+      <% apks.forEach(apk => { %>
+        <%- include('partials/_apk_card', { apk: apk }) %>
+      <% }) %>
+    </div>
+  
+  </div>
+</section>
+
+<!-- AD SLOT: MID BANNER -->
+<div class="container">
+  <%- include('partials/ads', { slot: '2222222222' }) %>
+</div>
+
+<!-- ===== GAMES ===== -->
+<section class="section section-alt" id="games-preview">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-icon games-icon"><i class="fa-solid fa-gamepad"></i></span>
+        <h2 class="section-title">Top Games</h2>
+      </div>
+      <a href="/games" class="see-all">See All <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    
+    <div class="cards-grid">
+      <% apks.forEach(apk => { %>
+        <%- include('partials/_apk_card', { apk: apk }) %>
+      <% }) %>
+    </div>
+  
+  </div>
+</section>
+
+<!-- ===== APPS ===== -->
+<section class="section" id="apps-preview">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-icon apps-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+        <h2 class="section-title">Top Apps</h2>
+      </div>
+      <a href="/apps" class="see-all">See All <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    
+    <div class="cards-grid">
+      <% apks.forEach(apk => { %>
+        <%- include('partials/_apk_card', { apk: apk }) %>
+      <% }) %>
+    </div>
+  
+  </div>
+</section>
+
+<!-- ===== CATEGORIES ===== -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-icon cats-icon"><i class="fa-solid fa-grid-2"></i></span>
+        <h2 class="section-title">Browse Categories</h2>
+      </div>
+      <a href="/categories" class="see-all">All Categories <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <div class="categories-grid">
+      <a href="/category/action" class="cat-card">
+        <div class="cat-icon" style="background:linear-gradient(135deg,#ff4757,#ff6b81)"><i class="fa-solid fa-sword"></i></div>
+        <span>Action</span>
+      </a>
+      <a href="/category/rpg" class="cat-card">
+        <div class="cat-icon" style="background:linear-gradient(135deg,#6c63ff,#a78bfa)"><i class="fa-solid fa-hat-wizard"></i></div>
+        <span>RPG</span>
+      </a>
+      <a href="/category/racing" class="cat-card">
+        <div class="cat-icon" style="background:linear-gradient(135deg,#ffa502,#ff6348)"><i class="fa-solid fa-car-side"></i></div>
+        <span>Racing</span>
+      </a>
+      <a href="/category/strategy" class="cat-card">
+        <div class="cat-icon" style="background:linear-gradient(135deg,#00d4aa,#00b4d8)"><i class="fa-solid fa-chess-rook"></i></div>
+        <span>Strategy</span>
+      </a>
+      <a href="/category/puzzle" class="cat-card">
+        <div class="cat-icon" style="background:linear-gradient(135deg,#2ed573,#1e90ff)"><i class="fa-solid fa-puzzle-piece"></i></div>
+        <span>Puzzle</span>
+      </a>
+      <a href="/category/social" class="cat-card">
+        <div class="cat-icon" style="background:linear-gradient(135deg,#ff6b35,#f7931e)"><i class="fa-solid fa-users"></i></div>
+        <span>Social</span>
+      </a>
+      <a href="/category/music" class="cat-card">
+        <div class="cat-icon" style="background:linear-gradient(135deg,#1db954,#17a74a)"><i class="fa-solid fa-music"></i></div>
+        <span>Music</span>
+      </a>
+      <a href="/category/tools" class="cat-card">
+        <div class="cat-icon" style="background:linear-gradient(135deg,#747d8c,#a4b0be)"><i class="fa-solid fa-wrench"></i></div>
+        <span>Tools</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LATEST ===== -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-icon latest-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+        <h2 class="section-title">Latest Updates</h2>
+      </div>
+      <a href="/latest" class="see-all">View All <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    
+    <div class="latest-list">
+      <% apks.forEach(a => { %>
+        <div class="latest-item" onclick="window.location.href='/app/<%= a.slug %>'">
+          <div class="latest-icon" style="background:<%= a.icon_bg %>"><%= a.icon %></div>
+          <div class="latest-info">
+            <div class="latest-name"><%= a.name %></div>
+            <div class="latest-sub"><%= a.category %> • <%= a.size %> • Android <%= a.android_required %></div>
+          </div>
+          <div class="latest-meta">
+            <div class="latest-version">v<%= a.version %></div>
+            <div class="latest-date"><%= a.upload_date %></div>
+            <div class="latest-badge mt-1">MOD</div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo" style="margin-bottom:1rem">
+          <span class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></span>
+          <span class="logo-text">Mod<span class="logo-accent">Vault</span></span>
+        </div>
+        <p>The best source for premium MOD APKs. All files are scanned and tested before publishing.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-links-group">
+        <h4>Navigation</h4>
+        <a href="/">Home</a>
+        <a href="/games">Games</a>
+        <a href="/apps">Apps</a>
+        <a href="/categories">Categories</a>
+        <a href="/latest">Latest</a>
+        <a href="/search">Search</a>
+      </div>
+      <div class="footer-links-group">
+        <h4>Legal</h4>
+        <a href="/disclaimer">Disclaimer</a>
+        <a href="/dmca">DMCA</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Use</a>
+        <a href="/faq">FAQ</a>
+        <a href="/contact">Contact</a>
+      </div>
+      <div class="footer-links-group">
+        <h4>Categories</h4>
+        <a href="/category/action">Action Games</a>
+        <a href="/category/rpg">RPG Games</a>
+        <a href="/category/social">Social Apps</a>
+        <a href="/category/music">Music Apps</a>
+        <a href="/category/tools">Tools</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 ModVault. All rights reserved. Files hosted on third-party servers. <a href="/disclaimer">Disclaimer</a></p>
+    </div>
+  </div>
+</footer>
+
+
+
+  
+  
+  
+  <%- include('partials/firebase') %>
+  <%- include('partials/cookie_banner') %>
+  <%- include('partials/auth_modals') %>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

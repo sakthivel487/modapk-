@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Disclaimer — ModVault</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+  <style>.legal{max-width:780px;margin:0 auto;padding:110px 5% 4rem}.legal h1{font-size:2rem;font-weight:900;margin-bottom:0.5rem}.legal .date{color:var(--text-muted);font-size:0.85rem;margin-bottom:2.5rem}.legal h2{font-size:1.1rem;font-weight:800;margin:2rem 0 0.75rem;color:var(--text-primary)}.legal p,.legal li{color:var(--text-secondary);font-size:0.95rem;line-height:1.8;margin-bottom:0.75rem}.legal ul{padding-left:1.5rem}.legal li{margin-bottom:0.4rem}.legal a{color:var(--accent)}.notice-box{background:rgba(255,107,53,0.08);border:1px solid rgba(255,107,53,0.25);border-radius:var(--radius);padding:1.2rem 1.5rem;margin-bottom:2rem}.notice-box p{margin:0;color:var(--text-secondary)}.notice-box strong{color:var(--accent-3)}</style>
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo"><span class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></span><span class="logo-text">Mod<span class="logo-accent">Vault</span></span></a>
+    
+    <div class="nav-links">
+      <a href="/games" class="nav-link"><i class="fa-solid fa-gamepad"></i> Games</a>
+      <a href="/apps" class="nav-link"><i class="fa-solid fa-mobile-screen"></i> Apps</a>
+      <a href="/categories" class="nav-link"><i class="fa-solid fa-grid-2"></i> Categories</a>
+      <a href="/latest" class="nav-link"><i class="fa-solid fa-fire"></i> Latest</a>
+    </div>
+    
+    <% if (user) { %>
+    <div class="user-menu" id="userMenu">
+        <div class="user-avatar-btn" onclick="toggleUserDropdown()">
+            <div class="user-avatar" id="navAvatar"><%= user.name.charAt(0).toUpperCase() %></div>
+            <span class="user-name" id="navUserName"><%= user.name %></span>
+            <i class="fas fa-chevron-down" style="font-size:0.7rem;color:var(--text-secondary)"></i>
+        </div>
+        <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown-header">
+                <div class="user-dropdown-name" id="ddName"><%= user.name %></div>
+                <div class="user-dropdown-email" id="ddEmail"><%= user.email %></div>
+                <div class="user-dropdown-badge <%= user.role === 'admin' ? 'admin' : '' %>" id="ddBadge"><%= user.role === 'admin' ? 'Admin' : 'User' %></div>
+            </div>
+            <a href="/profile" class="user-dropdown-item"><i class="fas fa-user"></i> My Profile</a>
+            <a href="/downloads" class="user-dropdown-item"><i class="fas fa-download"></i> My Downloads</a>
+            <% if (user.role === 'admin') { %>
+            <a href="/admin" class="user-dropdown-item"><i class="fas fa-cog"></i> Admin Panel</a>
+            <% } %>
+            <div class="user-dropdown-divider"></div>
+            <button type="button" class="user-dropdown-item danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </div>
+    <% } else { %>
+    <div class="nav-auth-btns">
+        <button class="btn-login" onclick="openAuth('login')"><i class="fas fa-sign-in-alt"></i> Login</button>
+        <button class="btn-signup" onclick="openAuth('signup')"><i class="fas fa-user-plus"></i> Sign Up</button>
+    </div>
+    <% } %>
+
+  </div>
+</nav>
+
+<div class="legal">
+  <h1>⚖️ Disclaimer</h1>
+  <div class="date">Last updated: April 2025</div>
+
+  <div class="notice-box">
+    <p><strong>⚠️ Important:</strong> ModVault does not host any APK files on its own servers. All files are hosted on third-party servers (Google Drive, Telegram, MEGA, etc.). We are not responsible for the content of those files.</p>
+  </div>
+
+  <h2>1. No Affiliation</h2>
+  <p>ModVault is not affiliated with, endorsed by, or connected to any of the app developers, publishers, or companies mentioned on this website. All trademarks, product names, and company names are the property of their respective owners.</p>
+
+  <h2>2. Third-Party File Hosting</h2>
+  <p>All APK files linked from this site are hosted on external third-party platforms. ModVault simply provides links to these files and cannot guarantee their safety, accuracy, or availability. Users download files at their own risk.</p>
+
+  <h2>3. Use at Your Own Risk</h2>
+  <p>MOD APKs are modified versions of original apps and may:</p>
+  <ul>
+    <li>Violate the Terms of Service of the original app</li>
+    <li>Cause account bans in online games</li>
+    <li>Contain unexpected behavior</li>
+    <li>Not work on all devices</li>
+  </ul>
+  <p>We strongly advise users to use antivirus software and download responsibly.</p>
+
+  <h2>4. Copyright</h2>
+  <p>We respect intellectual property rights. If you believe any content on this site infringes your copyright, please contact us via our <a href="/dmca">DMCA page</a> and we will remove it promptly.</p>
+
+  <h2>5. No Warranty</h2>
+  <p>This website is provided "as is" without any warranties. We do not guarantee uninterrupted service or error-free content.</p>
+
+  <h2>Contact</h2>
+  <p>For any concerns, visit our <a href="/contact">Contact page</a> or submit a <a href="/dmca">DMCA request</a>.</p>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-bottom" style="border-top:none;padding-top:0"><p>© 2025 ModVault · <a href="/dmca">DMCA</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></p></div></div></footer>
+<script>window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>30))</script>
+  
+  
+  
+  <%- include('partials/firebase') %>
+  <%- include('partials/cookie_banner') %>
+  <%- include('partials/auth_modals') %>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

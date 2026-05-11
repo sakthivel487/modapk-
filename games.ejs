@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOD Games APK Free Download — ModVault</title>
+  <meta name="description" content="Download the best MOD Game APKs free. Action, RPG, Strategy, Racing and more with unlimited money and unlocked features." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo"><span class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></span><span class="logo-text">Mod<span class="logo-accent">Vault</span></span></a>
+    <div class="nav-search" id="nav-search-wrap">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" id="nav-search-input" class="nav-search-input" placeholder="Search APKs..." autocomplete="off" />
+      <div class="search-dropdown" id="search-dropdown"></div>
+    </div>
+    
+    <div class="nav-links">
+      <a href="/games" class="nav-link"><i class="fa-solid fa-gamepad"></i> Games</a>
+      <a href="/apps" class="nav-link"><i class="fa-solid fa-mobile-screen"></i> Apps</a>
+      <a href="/categories" class="nav-link"><i class="fa-solid fa-grid-2"></i> Categories</a>
+      <a href="/latest" class="nav-link"><i class="fa-solid fa-fire"></i> Latest</a>
+    </div>
+    
+    <% if (user) { %>
+    <div class="user-menu" id="userMenu">
+        <div class="user-avatar-btn" onclick="toggleUserDropdown()">
+            <div class="user-avatar" id="navAvatar"><%= user.name.charAt(0).toUpperCase() %></div>
+            <span class="user-name" id="navUserName"><%= user.name %></span>
+            <i class="fas fa-chevron-down" style="font-size:0.7rem;color:var(--text-secondary)"></i>
+        </div>
+        <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown-header">
+                <div class="user-dropdown-name" id="ddName"><%= user.name %></div>
+                <div class="user-dropdown-email" id="ddEmail"><%= user.email %></div>
+                <div class="user-dropdown-badge <%= user.role === 'admin' ? 'admin' : '' %>" id="ddBadge"><%= user.role === 'admin' ? 'Admin' : 'User' %></div>
+            </div>
+            <a href="/profile" class="user-dropdown-item"><i class="fas fa-user"></i> My Profile</a>
+            <a href="/downloads" class="user-dropdown-item"><i class="fas fa-download"></i> My Downloads</a>
+            <% if (user.role === 'admin') { %>
+            <a href="/admin" class="user-dropdown-item"><i class="fas fa-cog"></i> Admin Panel</a>
+            <% } %>
+            <div class="user-dropdown-divider"></div>
+            <button type="button" class="user-dropdown-item danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </div>
+    <% } else { %>
+    <div class="nav-auth-btns">
+        <button class="btn-login" onclick="openAuth('login')"><i class="fas fa-sign-in-alt"></i> Login</button>
+        <button class="btn-signup" onclick="openAuth('signup')"><i class="fas fa-user-plus"></i> Sign Up</button>
+    </div>
+    <% } %>
+
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="/games"><i class="fa-solid fa-gamepad"></i> Games</a>
+    <a href="/apps"><i class="fa-solid fa-mobile-screen"></i> Apps</a>
+    <a href="/categories"><i class="fa-solid fa-grid-2"></i> Categories</a>
+    <a href="/latest"><i class="fa-solid fa-fire"></i> Latest</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <h1>🎮 MOD <span class="gradient-text">Games</span> APK</h1>
+  <p>Unlimited money, god mode, unlocked levels — all your favourite games, fully modded.</p>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:2rem">
+      <button class="filter-btn active" onclick="filterGames('')" id="gb-all">All</button>
+      <button class="filter-btn" onclick="filterGames('action')" id="gb-action">⚔️ Action</button>
+      <button class="filter-btn" onclick="filterGames('rpg')" id="gb-rpg">🧙 RPG</button>
+      <button class="filter-btn" onclick="filterGames('strategy')" id="gb-strategy">♟️ Strategy</button>
+      <button class="filter-btn" onclick="filterGames('puzzle')" id="gb-puzzle">🧩 Puzzle</button>
+      <button class="filter-btn" onclick="filterGames('racing')" id="gb-racing">🏎️ Racing</button>
+      <button class="filter-btn" onclick="filterGames('adventure')" id="gb-adventure">🗺️ Adventure</button>
+    </div>
+    <div class="cards-grid" id="games-page-grid"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none;padding-top:0">
+      <p>© 2025 ModVault · <a href="/disclaimer">Disclaimer</a> · <a href="/dmca">DMCA</a></p>
+    </div>
+  </div>
+</footer>
+
+
+
+<script>
+  const filterBtns = document.querySelectorAll('[id^="gb-"]');
+  function filterGames(sub) {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    document.getElementById('gb-'+(sub||'all')).classList.add('active');
+    let list = APK_DATA.filter(a => a.category === 'games');
+    if (sub) list = list.filter(a => a.subCategory === sub);
+    document.getElementById('games-page-grid').innerHTML = list.length
+      ? list.map(apkCardHTML).join('')
+      : '<p style="color:var(--text-muted);grid-column:1/-1">No games found in this category yet.</p>';
+  }
+  document.addEventListener('DOMContentLoaded', () => filterGames(''));
+
+  // inject filter-btn style
+  const s = document.createElement('style');
+  s.textContent='.filter-btn{padding:0.45rem 1rem;background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);font-family:var(--font);font-size:0.85rem;border-radius:50px;cursor:pointer;transition:var(--transition)}.filter-btn.active,.filter-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(108,99,255,0.08)}';
+  document.head.appendChild(s);
+</script>
+  
+  
+  
+  <%- include('partials/firebase') %>
+  <%- include('partials/cookie_banner') %>
+  <%- include('partials/auth_modals') %>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

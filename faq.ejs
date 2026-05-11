@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — ModVault</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+  <style>
+    .legal{max-width:780px;margin:0 auto;padding:110px 5% 4rem}
+    .legal h1{font-size:2rem;font-weight:900;margin-bottom:0.5rem}
+    .legal .date{color:var(--text-muted);font-size:0.85rem;margin-bottom:2.5rem}
+    .faq-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:0.75rem;overflow:hidden;transition:0.3s}
+    .faq-item:hover{border-color:var(--border-hover)}
+    .faq-q{padding:1.1rem 1.3rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-weight:700;font-size:0.95rem;gap:1rem}
+    .faq-q i{color:var(--accent);font-size:0.8rem;transition:0.3s;flex-shrink:0}
+    .faq-item.open .faq-q i{transform:rotate(180deg)}
+    .faq-a{padding:0 1.3rem;max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s}
+    .faq-item.open .faq-a{max-height:300px;padding:0 1.3rem 1.1rem}
+    .faq-a p{color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin:0}
+  </style>
+</head>
+<body>
+<nav class="navbar" id="navbar"><div class="nav-container"><a href="/" class="nav-logo"><span class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></span><span class="logo-text">Mod<span class="logo-accent">Vault</span></span></a>
+    <div class="nav-links">
+      <a href="/games" class="nav-link"><i class="fa-solid fa-gamepad"></i> Games</a>
+      <a href="/apps" class="nav-link"><i class="fa-solid fa-mobile-screen"></i> Apps</a>
+      <a href="/categories" class="nav-link"><i class="fa-solid fa-grid-2"></i> Categories</a>
+      <a href="/latest" class="nav-link"><i class="fa-solid fa-fire"></i> Latest</a>
+    </div>
+    
+    <% if (user) { %>
+    <div class="user-menu" id="userMenu">
+        <div class="user-avatar-btn" onclick="toggleUserDropdown()">
+            <div class="user-avatar" id="navAvatar"><%= user.name.charAt(0).toUpperCase() %></div>
+            <span class="user-name" id="navUserName"><%= user.name %></span>
+            <i class="fas fa-chevron-down" style="font-size:0.7rem;color:var(--text-secondary)"></i>
+        </div>
+        <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown-header">
+                <div class="user-dropdown-name" id="ddName"><%= user.name %></div>
+                <div class="user-dropdown-email" id="ddEmail"><%= user.email %></div>
+                <div class="user-dropdown-badge <%= user.role === 'admin' ? 'admin' : '' %>" id="ddBadge"><%= user.role === 'admin' ? 'Admin' : 'User' %></div>
+            </div>
+            <a href="/profile" class="user-dropdown-item"><i class="fas fa-user"></i> My Profile</a>
+            <a href="/downloads" class="user-dropdown-item"><i class="fas fa-download"></i> My Downloads</a>
+            <% if (user.role === 'admin') { %>
+            <a href="/admin" class="user-dropdown-item"><i class="fas fa-cog"></i> Admin Panel</a>
+            <% } %>
+            <div class="user-dropdown-divider"></div>
+            <button type="button" class="user-dropdown-item danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </div>
+    <% } else { %>
+    <div class="nav-auth-btns">
+        <button class="btn-login" onclick="openAuth('login')"><i class="fas fa-sign-in-alt"></i> Login</button>
+        <button class="btn-signup" onclick="openAuth('signup')"><i class="fas fa-user-plus"></i> Sign Up</button>
+    </div>
+    <% } %>
+</div></nav>
+
+<div class="legal">
+  <h1>❓ Frequently Asked Questions</h1>
+  <div class="date">Everything you need to know about ModVault.</div>
+
+  <div class="faq-item open">
+    <div class="faq-q" onclick="toggleFaq(this)">What is a MOD APK? <i class="fa-solid fa-chevron-down"></i></div>
+    <div class="faq-a"><p>A MOD APK is a modified version of an original Android application. These modifications can include unlocked premium features, unlimited in-game currency, removed ads, and other enhancements not available in the original version.</p></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Is it safe to download from ModVault? <i class="fa-solid fa-chevron-down"></i></div>
+    <div class="faq-a"><p>We scan all files before linking them on our site. However, since files are hosted on third-party servers, we recommend using antivirus software and downloading at your own discretion. Always enable Play Protect on your device.</p></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Will I get banned for using MOD APKs? <i class="fa-solid fa-chevron-down"></i></div>
+    <div class="faq-a"><p>Using MOD APKs in online games (like PUBG, Free Fire) may result in account bans. Offline games and apps generally do not have this risk. Always use a secondary account for testing MODs.</p></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">How do I install a MOD APK? <i class="fa-solid fa-chevron-down"></i></div>
+    <div class="faq-a"><p>1) Go to Settings → Security → Enable "Unknown Sources". 2) Download the MOD APK from our site. 3) Open the downloaded file and tap "Install". 4) Once installed, open the app. Some games require an OBB file — follow the instructions on the app detail page.</p></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Why is there a timer on the download page? <i class="fa-solid fa-chevron-down"></i></div>
+    <div class="faq-a"><p>The short timer allows us to display an ad, which helps keep ModVault free. We keep it to just 5 seconds to minimize inconvenience.</p></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Can I request a specific MOD APK? <i class="fa-solid fa-chevron-down"></i></div>
+    <div class="faq-a"><p>Yes! Visit our <a href="/contact" style="color:var(--accent)">Contact page</a> and submit your request. We try to add popular requests within 48 hours.</p></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Do I need to root my phone? <i class="fa-solid fa-chevron-down"></i></div>
+    <div class="faq-a"><p>No! All MOD APKs on ModVault work without root. Simply download, install, and enjoy. No special setup required.</p></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">How do I report a broken link? <i class="fa-solid fa-chevron-down"></i></div>
+    <div class="faq-a"><p>If a download link is broken or the file is outdated, please let us know via our <a href="/contact" style="color:var(--accent)">Contact page</a>. We'll fix it as soon as possible.</p></div>
+  </div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-bottom" style="border-top:none;padding-top:0"><p>© 2025 ModVault · <a href="/disclaimer">Disclaimer</a> · <a href="/privacy">Privacy</a></p></div></div></footer>
+<script>
+window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>30));
+function toggleFaq(el){
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(f=>f.classList.remove('open'));
+  if(!wasOpen) item.classList.add('open');
+}
+</script>
+  
+  
+  
+  <%- include('partials/firebase') %>
+  <%- include('partials/cookie_banner') %>
+  <%- include('partials/auth_modals') %>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

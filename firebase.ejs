@@ -1,0 +1,47 @@
+<script type="importmap">
+  {
+    "imports": {
+      "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+      "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js",
+      "firebase/analytics": "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js",
+      "firebase/firestore": "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"
+    }
+  }
+</script>
+
+<script type="module">
+  import { initializeApp } from "firebase/app";
+  import { getAnalytics } from "firebase/analytics";
+  import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+  import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDIBheu8FsSn5VALhmrqo56GDUAQCG5RoQ",
+    authDomain: "mod-apk-584a5.firebaseapp.com",
+    projectId: "mod-apk-584a5",
+    storageBucket: "mod-apk-584a5.firebasestorage.app",
+    messagingSenderId: "223609562240",
+    appId: "1:223609562240:web:e46fa4258f58f442ffb265",
+    measurementId: "G-DD4VFTHZ0N"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const googleProvider = new GoogleAuthProvider();
+
+  // Expose to window for auth.js
+  window.firebaseAuth = {
+    auth,
+    db,
+    googleProvider,
+    signInWithPopup,
+    collection,
+    query,
+    where,
+    getDocs
+  };
+</script>

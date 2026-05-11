@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download <%= apk.name %> — ModVault</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+  <style>
+    body { background: var(--bg-primary); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; text-align: center; }
+    .dl-container { max-width: 500px; width: 100%; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 3rem 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+    .dl-icon { width: 80px; height: 80px; border-radius: 20px; display: grid; place-items: center; font-size: 2.5rem; margin: 0 auto 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+    .dl-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 0.5rem; }
+    .dl-meta { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; font-weight: 500; }
+    .timer-wrap { margin-bottom: 2rem; }
+    .timer-num { font-size: 3rem; font-weight: 900; color: var(--accent); text-shadow: 0 0 20px rgba(108,99,255,0.4); font-variant-numeric: tabular-nums; line-height: 1; margin-bottom: 1rem; }
+    .timer-text { color: var(--text-secondary); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .progress-bar { width: 100%; height: 6px; background: var(--bg-secondary); border-radius: 10px; overflow: hidden; margin-top: 1rem; }
+    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 1s linear; }
+    .final-btn { display: none; width: 100%; justify-content: center; font-size: 1.1rem; padding: 1rem; margin-top: 1.5rem; animation: pulse 2s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(108,99,255,0.4); } 70% { box-shadow: 0 0 0 15px rgba(108,99,255,0); } 100% { box-shadow: 0 0 0 0 rgba(108,99,255,0); } }
+  </style>
+</head>
+<body>
+  <div class="dl-container">
+    <div class="dl-icon" style="background:<%= apk.icon_bg %>"><%= apk.icon %></div>
+    <h1 class="dl-title"><%= apk.name %></h1>
+    <div class="dl-meta">v<%= apk.version %> • <%= apk.size %> • Android <%= apk.android_required %></div>
+
+    <div class="timer-wrap" id="timer-wrap">
+      <div class="timer-num" id="timer-num">5</div>
+      <div class="timer-text">Your link is generating</div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <a href="<%= apk.download_url %>" class="btn-primary final-btn" id="final-btn" target="_blank">
+      <i class="fa-solid fa-cloud-arrow-down"></i> Download File
+    </a>
+
+    <a href="/app/<%= apk.slug %>" style="display:block;margin-top:1.5rem;color:var(--text-muted);font-size:0.85rem;text-decoration:none;"><i class="fa-solid fa-arrow-left"></i> Go back</a>
+  </div>
+
+  <script>
+    let timeLeft = 5;
+    const numEl = document.getElementById('timer-num');
+    const fillEl = document.getElementById('progress-fill');
+    const wrap = document.getElementById('timer-wrap');
+    const btn = document.getElementById('final-btn');
+
+    // Start progress bar animation immediately
+    setTimeout(() => { fillEl.style.width = '100%'; }, 50);
+
+    const timer = setInterval(() => {
+      timeLeft--;
+      numEl.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        wrap.style.display = 'none';
+        btn.style.display = 'flex';
+        // Auto redirect after it appears (optional)
+        // window.location.href = '<%= apk.download_url %>';
+      }
+    }, 1000);
+  </script>
+  
+  
+  
+  <%- include('partials/firebase') %>
+  <%- include('partials/cookie_banner') %>
+  <%- include('partials/auth_modals') %>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

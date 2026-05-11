@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Categories — ModVault</title>
+  <meta name="description" content="Browse all MOD APK categories. Games and Apps sorted by type." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+  <style>
+    .big-cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1.2rem}
+    .big-cat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem 1rem;display:flex;flex-direction:column;align-items:center;gap:0.9rem;text-align:center;transition:var(--transition);cursor:pointer;color:var(--text-secondary);font-weight:700;font-size:0.95rem}
+    .big-cat-card:hover{border-color:var(--border-hover);transform:translateY(-4px);color:var(--text-primary)}
+    .big-cat-icon{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;font-size:1.8rem;color:#fff}
+    .big-cat-count{font-size:0.75rem;color:var(--text-muted);font-weight:500}
+    .cat-section-label{font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin:2.5rem 0 1rem;display:flex;align-items:center;gap:0.6rem}
+    .cat-section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+  </style>
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo"><span class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></span><span class="logo-text">Mod<span class="logo-accent">Vault</span></span></a>
+    
+    <div class="nav-links">
+      <a href="/games" class="nav-link"><i class="fa-solid fa-gamepad"></i> Games</a>
+      <a href="/apps" class="nav-link"><i class="fa-solid fa-mobile-screen"></i> Apps</a>
+      <a href="/categories" class="nav-link"><i class="fa-solid fa-grid-2"></i> Categories</a>
+      <a href="/latest" class="nav-link"><i class="fa-solid fa-fire"></i> Latest</a>
+    </div>
+    
+    <% if (user) { %>
+    <div class="user-menu" id="userMenu">
+        <div class="user-avatar-btn" onclick="toggleUserDropdown()">
+            <div class="user-avatar" id="navAvatar"><%= user.name.charAt(0).toUpperCase() %></div>
+            <span class="user-name" id="navUserName"><%= user.name %></span>
+            <i class="fas fa-chevron-down" style="font-size:0.7rem;color:var(--text-secondary)"></i>
+        </div>
+        <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown-header">
+                <div class="user-dropdown-name" id="ddName"><%= user.name %></div>
+                <div class="user-dropdown-email" id="ddEmail"><%= user.email %></div>
+                <div class="user-dropdown-badge <%= user.role === 'admin' ? 'admin' : '' %>" id="ddBadge"><%= user.role === 'admin' ? 'Admin' : 'User' %></div>
+            </div>
+            <a href="/profile" class="user-dropdown-item"><i class="fas fa-user"></i> My Profile</a>
+            <a href="/downloads" class="user-dropdown-item"><i class="fas fa-download"></i> My Downloads</a>
+            <% if (user.role === 'admin') { %>
+            <a href="/admin" class="user-dropdown-item"><i class="fas fa-cog"></i> Admin Panel</a>
+            <% } %>
+            <div class="user-dropdown-divider"></div>
+            <button type="button" class="user-dropdown-item danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </div>
+    <% } else { %>
+    <div class="nav-auth-btns">
+        <button class="btn-login" onclick="openAuth('login')"><i class="fas fa-sign-in-alt"></i> Login</button>
+        <button class="btn-signup" onclick="openAuth('signup')"><i class="fas fa-user-plus"></i> Sign Up</button>
+    </div>
+    <% } %>
+
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="/games"><i class="fa-solid fa-gamepad"></i> Games</a>
+    <a href="/apps"><i class="fa-solid fa-mobile-screen"></i> Apps</a>
+    <a href="/latest"><i class="fa-solid fa-fire"></i> Latest</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <h1>Browse <span class="gradient-text">Categories</span></h1>
+  <p>Find MOD APKs by genre — games, apps, tools and more.</p>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="cat-section-label"><i class="fa-solid fa-gamepad"></i> Games</div>
+    <div class="big-cat-grid">
+      <a href="games.html?cat=action" class="big-cat-card">
+        <div class="big-cat-icon" style="background:linear-gradient(135deg,#ff4757,#ff6b81)"><i class="fa-solid fa-gun"></i></div>
+        Action<div class="big-cat-count" id="cnt-action">0 APKs</div>
+      </a>
+      <a href="games.html?cat=rpg" class="big-cat-card">
+        <div class="big-cat-icon" style="background:linear-gradient(135deg,#6c63ff,#a78bfa)"><i class="fa-solid fa-hat-wizard"></i></div>
+        RPG<div class="big-cat-count" id="cnt-rpg">0 APKs</div>
+      </a>
+      <a href="games.html?cat=strategy" class="big-cat-card">
+        <div class="big-cat-icon" style="background:linear-gradient(135deg,#00d4aa,#00b4d8)"><i class="fa-solid fa-chess-rook"></i></div>
+        Strategy<div class="big-cat-count" id="cnt-strategy">0 APKs</div>
+      </a>
+      <a href="games.html?cat=puzzle" class="big-cat-card">
+        <div class="big-cat-icon" style="background:linear-gradient(135deg,#fd79a8,#e84393)"><i class="fa-solid fa-puzzle-piece"></i></div>
+        Puzzle<div class="big-cat-count" id="cnt-puzzle">0 APKs</div>
+      </a>
+      <a href="games.html?cat=racing" class="big-cat-card">
+        <div class="big-cat-icon" style="background:linear-gradient(135deg,#ffa502,#ff6348)"><i class="fa-solid fa-car-side"></i></div>
+        Racing<div class="big-cat-count" id="cnt-racing">0 APKs</div>
+      </a>
+      <a href="games.html?cat=adventure" class="big-cat-card">
+        <div class="big-cat-icon" style="background:linear-gradient(135deg,#2ed573,#1e90ff)"><i class="fa-solid fa-map"></i></div>
+        Adventure<div class="big-cat-count" id="cnt-adventure">0 APKs</div>
+      </a>
+      <a href="games.html?cat=simulation" class="big-cat-card">
+        <div class="big-cat-icon" style="background:linear-gradient(135deg,#747d8c,#a4b0be)"><i class="fa-solid fa-earth-americas"></i></div>
+        Simulation<div class="big-cat-count">0 APKs</div>
+      </a>
+      <a href="games.html?cat=sports" class="big-cat-card">
+        <div class="big-cat-icon" style="background:linear-gradient(135deg,#00b894,#00cec9)"><i class="fa-solid fa-futbol"></i></div>
+        Sports<div class="big-cat-count">0 APKs</div>
+      </a>
+    </div>
+
+    <div class="cat-section-label"><i class="fa-solid fa-mobile-screen"></i> Apps</div>
+    <div class="big-cat-grid">
+      <a href="apps.html?cat=social" class="big-cat-card">
+        <div class="big-cat-icon" style="background:linear-gradient(135deg,#0984e3,#74b9ff)"><i class="fa-solid fa-users"></i></div>
+        Social<div class="big-cat-count" id="cnt-social">0 APKs</div>
+      </a>
+      <a href="apps.html?cat=entertainment" class="big-cat-card">
+        <div class="big-cat-icon" style="background:linear-gradient(135deg,#E50914,#B00710)"><i class="fa-solid fa-clapperboard"></i></div>
+        Entertainment<div class="big-cat-count" id="cnt-entertainment">0 APKs</div>
+      </a>
+      <a href="apps.html?cat=music" class="big-cat-card">
+        <div class="big-cat-icon" style="background:linear-gradient(135deg,#1DB954,#17A74A)"><i class="fa-solid fa-music"></i></div>
+        Music<div class="big-cat-count" id="cnt-music">0 APKs</div>
+      </a>
+      <a href="apps.html?cat=tools" class="big-cat-card">
+        <div class="big-cat-icon" style="background:linear-gradient(135deg,#636e72,#b2bec3)"><i class="fa-solid fa-wrench"></i></div>
+        Tools<div class="big-cat-count" id="cnt-tools">0 APKs</div>
+      </a>
+      <a href="apps.html?cat=education" class="big-cat-card">
+        <div class="big-cat-icon" style="background:linear-gradient(135deg,#6c63ff,#a78bfa)"><i class="fa-solid fa-graduation-cap"></i></div>
+        Education<div class="big-cat-count">0 APKs</div>
+      </a>
+      <a href="apps.html?cat=shopping" class="big-cat-card">
+        <div class="big-cat-icon" style="background:linear-gradient(135deg,#ff6b35,#f7931e)"><i class="fa-solid fa-bag-shopping"></i></div>
+        Shopping<div class="big-cat-count">0 APKs</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-bottom" style="border-top:none;padding-top:0"><p>© 2025 ModVault · <a href="/disclaimer">Disclaimer</a></p></div></div></footer>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const cats = ['action','rpg','strategy','puzzle','racing','adventure','social','entertainment','music','tools'];
+  cats.forEach(cat => {
+    const el = document.getElementById('cnt-'+cat);
+    if (el) {
+      const count = APK_DATA.filter(a => a.subCategory === cat).length;
+      el.textContent = count + ' APK' + (count !== 1 ? 's' : '');
+    }
+  });
+});
+</script>
+  
+  
+  
+  <%- include('partials/firebase') %>
+  <%- include('partials/cookie_banner') %>
+  <%- include('partials/auth_modals') %>
+  <script src="/js/auth.js"></script>
+</body>
+</html>
