@@ -1,9 +1,10 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
-const Mongostore = require('connect-mongo');
+const MongoStore = require('connect-mongo');
 const admin = require('firebase-admin');
 const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -126,7 +127,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI
+    mongoUrl: process.env.MONGO_URI,
     collectionName: 'sessions',
     ttl: 7 * 24 * 60 * 60 // 7 days
   }),
